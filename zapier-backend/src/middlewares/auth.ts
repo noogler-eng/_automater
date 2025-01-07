@@ -25,6 +25,7 @@ const authMiddleware = async (
       },
     });
 
+    console.log(user);
     if (user) next();
     else {
       res.status(403).json({

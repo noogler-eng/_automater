@@ -24,13 +24,10 @@ export default function Signin() {
     }
 
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_ZAP_ENVIRONEMNT}/api/v1/user/signin` || "",
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const res = await axios.post("http://localhost:5050/api/v1/user/signin", {
+        email: email,
+        password: password,
+      });
 
       toast({
         title: "signin successfully",
@@ -39,8 +36,6 @@ export default function Signin() {
 
       const token = "Bearer " + res.data.token;
       localStorage.setItem("token", token);
-      console.log(token);
-
       navigate.replace("/dashboard");
     } catch (error) {
       console.log("error while signin data to backend!");

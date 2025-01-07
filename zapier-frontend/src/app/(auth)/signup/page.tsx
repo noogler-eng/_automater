@@ -27,7 +27,7 @@ export default function Signup() {
     }
 
     try {
-      const res = await axios.post(``, {
+      const res = await axios.post(`http://localhost:5050/api/v1/user/signup`, {
         firstName: firstName,
         lastName: lastName,
         imageUrl: "",

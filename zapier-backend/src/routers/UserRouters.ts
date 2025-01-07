@@ -14,7 +14,6 @@ const userRouter = express.Router();
 
 // @dev - this is middleware
 // userRouter.use((req, res, next)=>{})
-
 userRouter.post("/signup", async (req: Request, res: Response) => {
   const body = await req.body;
   try {
@@ -81,6 +80,8 @@ userRouter.post("/signin", async (req: Request, res: Response) => {
         },
       });
 
+      console.log(user);
+
       if (!user) {
         return res.status(411).json({
           msg: "Invalid email",
@@ -103,7 +104,7 @@ userRouter.post("/signin", async (req: Request, res: Response) => {
         { expiresIn: "1h" }
       );
 
-      console.log('token', token);
+      console.log("token", token);
 
       return res.status(201).json({
         msg: "user logged in susscessfully",

@@ -11,6 +11,7 @@ const zapRouter = express.Router();
 // zapRouter.use((req, res, next)=>{})
 
 // @dev - creating zap with avaible triggers and available actions
+// there will creation of zap -> trigger -> actions[]
 zapRouter.post("/", authMiddleware, async (req: Request, res: Response) => {
   const body = await req.body;
   const parsedZapObject = zapObject.safeParse(body);
@@ -26,7 +27,14 @@ zapRouter.post("/", authMiddleware, async (req: Request, res: Response) => {
     const zap = await prisma.zap.create({
       data: {
         userId: Number(parsedZapObject.data.userId),
+        triggerId: parsedZapObject.data.availabelTriggerId,
+        trigger: {
+          create: {
+            triggerId: parsedZapObject.data.availabelTriggerId,
+          },
+        },
         actions: {
+          // as the actions should be linewise to perform on something
           create: parsedZapObject.data.actions.map((x, index) => {
             return {
               ActionId: x.availableActionsId,
@@ -34,19 +42,13 @@ zapRouter.post("/", authMiddleware, async (req: Request, res: Response) => {
             };
           }),
         },
-        trigger: {
-          create: {
-            triggerId: parsedZapObject.data.availabelTriggerId,
-          },
-        },
-        triggerId: parsedZapObject.data.availabelTriggerId,
       },
     });
 
     res.json({
-        id: zap.id,
-        msg: "zap created sussessfully"
-    })
+      id: zap.id,
+      msg: "zap created sussessfully",
+    });
   } catch (error) {
     console.log("zap creation error: ", error);
     return res.status(411).json({
@@ -55,7 +57,8 @@ zapRouter.post("/", authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-// @dev - getting all the users zaps
+// @dev - getting all the user's zaps
+// we can say getting all the workflows of the users
 zapRouter.get("/", authMiddleware, async (req: Request, res: Response) => {
   const token = (await req.headers.authorization)?.split(" ")[1] || "";
   const decodedToken = jwt.decode(token);
@@ -96,7 +99,7 @@ zapRouter.get("/", authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-// @dev - getting special zap with its id
+// @dev - getting specicifc zap with its id
 zapRouter.get(
   "/:zapId",
   authMiddleware,

@@ -27,6 +27,7 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 email: isVerify === null || isVerify === void 0 ? void 0 : isVerify.email,
             },
         });
+        console.log(user);
         if (user)
             next();
         else {

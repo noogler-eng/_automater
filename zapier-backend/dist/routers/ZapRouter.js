@@ -62,7 +62,7 @@ zapRouter.post("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void
         });
     }
 }));
-// @dev - getting all the users zaps
+// @dev - getting all the user's zaps
 zapRouter.get("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = ((_a = (yield req.headers.authorization)) === null || _a === void 0 ? void 0 : _a.split(" ")[1]) || "";
@@ -102,7 +102,7 @@ zapRouter.get("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 
         });
     }
 }));
-// @dev - getting special zap with its id
+// @dev - getting specicifc zap with its id
 zapRouter.get("/:zapId", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const zapId = yield req.params["zapId"];

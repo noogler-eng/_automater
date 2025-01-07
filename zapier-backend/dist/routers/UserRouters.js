@@ -71,7 +71,6 @@ userRouter.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, funct
 }));
 userRouter.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = yield req.body;
-    console.log('something!');
     try {
         const isValidObject = signin_1.default.safeParse(body);
         if (!isValidObject.success) {
@@ -85,6 +84,7 @@ userRouter.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
                     email: isValidObject.data.email,
                 },
             });
+            console.log(user);
             if (!user) {
                 return res.status(411).json({
                     msg: "Invalid email",
@@ -97,7 +97,7 @@ userRouter.post("/signin", (req, res) => __awaiter(void 0, void 0, void 0, funct
                 });
             }
             const token = yield jsonwebtoken_1.default.sign({ email: user.email }, process.env.SECRET_KEY || "", { expiresIn: "1h" });
-            console.log('token', token);
+            console.log("token", token);
             return res.status(201).json({
                 msg: "user logged in susscessfully",
                 token: token,

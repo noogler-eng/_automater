@@ -43,7 +43,7 @@ export default function Signup() {
       const token = "Bearer " + res.data.token;
       localStorage.setItem("token", token);
 
-      navigate.replace("/dashboard");
+      navigate.replace("/");
     } catch (error) {
       console.log("error while sending data to backend!");
       toast({

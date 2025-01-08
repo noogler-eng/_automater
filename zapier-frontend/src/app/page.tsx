@@ -4,19 +4,10 @@ import { Brands } from "./components/Brands";
 import Videos from "./components/Videos";
 import Boards from "./components/Boards";
 import useUser from "./hooks/useUser";
-import { useEffect } from "react";
 
 export default function Home() {
   const navigate = useRouter();
   const { user, isLoading, isError } = useUser();
-
-  useEffect(() => {
-    if (user) {
-      navigate.replace("/dashboard");
-    }
-  }, [user, isLoading]);
-
-  console.log(user);
 
   if (isError) {
     return <div>error....</div>;
@@ -42,22 +33,35 @@ export default function Home() {
               is your imagination.
             </h2>
             <div className="flex gap-2">
-              <button
-                className="px-4 py-2 text-xl rounded-full bg-orange-700"
-                onClick={() => {
-                  navigate.push("/signup");
-                }}
-              >
-                get start free with email
-              </button>
-              <button
-                className="px-4 py-2 text-xl rounded-full border border-gray-500"
-                onClick={() => {
-                  navigate.push("/signin");
-                }}
-              >
-                log in
-              </button>
+              {user ? (
+                <button
+                  className="px-4 py-2 text-xl rounded-full bg-orange-700"
+                  onClick={() => {
+                    navigate.push("/dashboard");
+                  }}
+                >
+                  dashboard
+                </button>
+              ) : (
+                <div className="flex gap-2">
+                  <button
+                    className="px-4 py-2 text-xl rounded-full bg-orange-700"
+                    onClick={() => {
+                      navigate.push("/signup");
+                    }}
+                  >
+                    get start free with email
+                  </button>
+                  <button
+                    className="px-4 py-2 text-xl rounded-full border border-gray-500"
+                    onClick={() => {
+                      navigate.push("/signin");
+                    }}
+                  >
+                    log in
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <img

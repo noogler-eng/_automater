@@ -7,7 +7,8 @@ dotenv.config();
 
 const actionRouter = express.Router();
 
-actionRouter.get("/availableActions", authMiddleware, async (req, res) => {
+// we can get this without also
+actionRouter.get("/availableActions", async (req, res) => {
   try {
     const availableActions = await prisma.availableActions.findMany({});
     return res.status(200).json({

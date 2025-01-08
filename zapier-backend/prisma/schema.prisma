@@ -55,12 +55,14 @@ model Action {
 model AvailableActions {
   id            String @id @default(uuid())
   name          String
+  image         String?
   triggers      Action[]
 }
 
 model AvailableTrigger {
   id            String @id @default(uuid())
   name          String
+  image         String?
   triggers      Trigger[]
 }
 

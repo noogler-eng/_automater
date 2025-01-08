@@ -7,7 +7,8 @@ dotenv.config();
 
 const triggerRouter = express.Router();
 
-triggerRouter.get("/availableTriggers", authMiddleware, async (req, res) => {
+// we can get this without auth also
+triggerRouter.get("/availableTriggers", async (req, res) => {
   try {
     const availableTriggers = await prisma.availableTrigger.findMany({});
     return res.status(200).json({

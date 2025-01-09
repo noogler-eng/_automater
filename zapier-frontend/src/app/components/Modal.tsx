@@ -112,7 +112,6 @@ export default function Modal({
                 },
                 ind
               ) => {
-                console.log(ind, item);
                 return <div key={ind}>{item.name}</div>;
               }
             )}

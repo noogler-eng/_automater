@@ -17,7 +17,6 @@ export default function CreateZap() {
     }[]
   >([]);
   const [currentModalState, setModalState] = useState(1);
-  console.log(selectedActions);
 
   return (
     <div className="flex-grow flex p-10">

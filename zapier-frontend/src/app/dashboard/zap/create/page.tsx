@@ -1,10 +1,14 @@
 "use client";
 import ZapCell from "@/app/components/ZapCell";
 import { useState } from "react";
-import Link from "next/link";
+import Modal from "@/app/components/Modal";
 
 export default function CreateZap() {
-  const [selectedTrigger, setSelectedTrigger] = useState("");
+  const [selectedTrigger, setSelectedTrigger] = useState<{
+    availableTriggerId: string;
+    availableTriggerName: string;
+    triggerMetadata: any;
+  }>();
   const [selectedActions, setSelectedActions] = useState<
     {
       availableActionId: string;
@@ -12,6 +16,8 @@ export default function CreateZap() {
       actionMetadata: any;
     }[]
   >([]);
+  const [currentModalState, setModalState] = useState(1);
+  console.log(selectedActions);
 
   return (
     <div className="flex-grow flex p-10">
@@ -19,6 +25,8 @@ export default function CreateZap() {
         <ZapCell
           name={selectedTrigger ? "webhooks" : "select trigger"}
           index={1}
+          setModalState={setModalState}
+          color={"bg-white text-black"}
         />
         {selectedActions.map((action, index) => {
           return (
@@ -28,8 +36,10 @@ export default function CreateZap() {
                   ? action.availableActionName
                   : "select actions"
               }
-              index={1 + index}
-              color={"bg-orange-200"}
+              index={2 + index}
+              color={"bg-orange-200 text-black"}
+              setModalState={setModalState}
+              key={index}
             />
           );
         })}
@@ -48,6 +58,14 @@ export default function CreateZap() {
         >
           <div className="">+</div>
         </button>
+      </div>
+      <div className="w-full pl-5 flex-grow flex flex-col">
+        <Modal
+          index={currentModalState}
+          actio={selectedActions}
+          setSelectedTrigger={setSelectedTrigger}
+          setSelectedActions={setSelectedActions}
+        />
       </div>
     </div>
   );

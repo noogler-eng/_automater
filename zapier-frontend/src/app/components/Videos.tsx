@@ -88,7 +88,7 @@ export default function Videos() {
           </button>
         ))}
       </div>
-
+          
       <div className="text-wrap">{current.def}</div>
     </div>
   );

@@ -85,6 +85,7 @@ export default function Dashboard() {
                 />
               </div>
             </div>
+            
             <div className="flex flex-col gap-1">
               <p className="underline">Actions:</p>
               {item.actions.map((internalItems, internalIndex: number) => {

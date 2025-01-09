@@ -21,6 +21,7 @@ const zapRouter = express_1.default.Router();
 // @dev - this is middleware
 // zapRouter.use((req, res, next)=>{})
 // @dev - creating zap with avaible triggers and available actions
+// there will creation of zap -> trigger -> actions[]
 zapRouter.post("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = yield req.body;
     const parsedZapObject = zap_1.default.safeParse(body);
@@ -34,7 +35,14 @@ zapRouter.post("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void
         const zap = yield db_1.default.zap.create({
             data: {
                 userId: Number(parsedZapObject.data.userId),
+                triggerId: parsedZapObject.data.availabelTriggerId,
+                trigger: {
+                    create: {
+                        triggerId: parsedZapObject.data.availabelTriggerId,
+                    },
+                },
                 actions: {
+                    // as the actions should be linewise to perform on something
                     create: parsedZapObject.data.actions.map((x, index) => {
                         return {
                             ActionId: x.availableActionsId,
@@ -42,17 +50,11 @@ zapRouter.post("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void
                         };
                     }),
                 },
-                trigger: {
-                    create: {
-                        triggerId: parsedZapObject.data.availabelTriggerId,
-                    },
-                },
-                triggerId: parsedZapObject.data.availabelTriggerId,
             },
         });
         res.json({
             id: zap.id,
-            msg: "zap created sussessfully"
+            msg: "zap created sussessfully",
         });
     }
     catch (error) {
@@ -63,6 +65,7 @@ zapRouter.post("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void
     }
 }));
 // @dev - getting all the user's zaps
+// we can say getting all the workflows of the users
 zapRouter.get("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = ((_a = (yield req.headers.authorization)) === null || _a === void 0 ? void 0 : _a.split(" ")[1]) || "";

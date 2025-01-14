@@ -32,6 +32,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
   
 });
 
+// listening the server
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`hooks server running on: http://localhost:${PORT}`);

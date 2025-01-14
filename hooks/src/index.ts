@@ -13,24 +13,35 @@ app.use(express.json());
 // there is a concept of ACK queue, which will remove the item from queue when it rec ACK
 app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
   const params = req.params;
-  //   const zap = prisma.zap.findUnique({
-  //     where: {
-  //       userId: Number(params.userId),
-  //       id: params.zapId,
-  //     },
-  //   });
+  const body = req.body;
 
-  //   if (!zap) {
-  //     res.status(411).json({
-  //       msg: "zap not found || invalid zap id",
-  //     });
-  //   }
+  try{
+    await prisma.$transaction(async tx => {
+        await tx.zapRun.create({
+            data: {
+                zapId: params.zapId,
+                metadata: body
+            }
+        }),
 
+        await tx.zapRunOutOfBox.create({
+            data: {
+                zapRunId: params.zapId,
+            }
+        })
+    });
+
+    res.status(200).json({
+        msg: "hook hit"
+    })
+  }catch(error){
+    res.status(500).json({
+        msg: "server side error",
+        error : error
+    })
+  }
+})
   
-
-
-  
-});
 
 // listening the server
 const PORT = process.env.PORT || 3002;

@@ -24,6 +24,12 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
             }
         }),
 
+        // outbox pattern microservices
+        // there are another entry which is zapRunOutOfBox and zapRun(hook)
+        // the entry in zapRunOutOfBox goes to kafka
+        // why dont we directly not put in kafka ?
+        // it is not valid as kafka in transaction of prisma so that's why
+        // we need atomicity here.
         await tx.zapRunOutOfBox.create({
             data: {
                 zapRunId: params.zapId,

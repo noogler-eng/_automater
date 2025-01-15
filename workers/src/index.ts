@@ -8,6 +8,8 @@ const main = async () => {
 
   while (1) {
     await consumer.run({
+      // this is for ACK which was by default true
+      autoCommit: false,
       eachMessage: async ({ topic, partition, message }) => {
         console.log({
           partition,
@@ -16,7 +18,12 @@ const main = async () => {
         });
 
         // this timeout for sending the email / desepnse the solana
-        await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+        await new Promise((resolve, reject) => setTimeout(resolve, 5 * 1000));
+
+        // giving ACK to the kafka that yes this zap is done by the worker
+        await consumer.commitOffsets([
+          { topic: topic, partition: partition, offset: message.offset },
+        ]);
       },
     });
   }

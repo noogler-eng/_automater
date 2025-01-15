@@ -19,7 +19,7 @@ const main = async () => {
         value: item.zapRunId.toString(),
       })),
     });
-    
+
     // we will delete them from zapRunOutOfBox
     await prisma.zapRunOutOfBox.deleteMany({
       where: {
@@ -30,3 +30,10 @@ const main = async () => {
     });
   }
 };
+
+main().then(()=>{
+    // this will never be happen
+    console.log("main server work is complete");
+}).catch((err)=>{
+    console.log("error in proccessor server: ", err);
+})

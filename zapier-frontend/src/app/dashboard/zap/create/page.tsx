@@ -19,7 +19,7 @@ export default function CreateZap() {
   const [currentModalState, setModalState] = useState(1);
 
   return (
-    <div className="flex-grow flex p-10">
+    <div className="flex-grow flex p-10 min-h-screen">
       <div className="bg-slate-200 rounded-lg w-fit px-10 py-4 flex flex-col gap-4 items-center">
         <ZapCell
           name={selectedTrigger ? "webhooks" : "select trigger"}

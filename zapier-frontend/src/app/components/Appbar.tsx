@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Appbar() {
   const navigate = useRouter();
-  const { user, isLoading, isError } = useUser();
+  const { user, isLoading, isError, setuser }: any = useUser();
 
   return (
     <div className="flex justify-between p-6 items-center border-b border-gray-600">
@@ -18,35 +18,32 @@ export default function Appbar() {
       <div className="flex gap-4 items-center">
         <FaEarthAsia size={24} />
         <div className="">contact sales</div>
-        {!user && (
-          <button
-            className="px-4 py-2 text-sm rounded-full border border-gray-500"
-            onClick={() => {
-              navigate.push("/signin");
-            }}
-          >
-            Log in
-          </button>
-        )}
-        {!user && (
-          <button
-            className="px-4 py-2 text-sm rounded-full bg-orange-700"
-            onClick={() => {
-              navigate.push("/signup");
-            }}
-          >
-            Sign up
-          </button>
-        )}
-        {user && (
+
+        {!user ? (
+          <>
+            <button
+              className="px-4 py-2 text-sm rounded-full border border-gray-500"
+              onClick={() => navigate.push("/signin")}
+            >
+              Log in
+            </button>
+            <button
+              className="px-4 py-2 text-sm rounded-full bg-orange-700"
+              onClick={() => navigate.push("/signup")}
+            >
+              Sign up
+            </button>
+          </>
+        ) : (
           <button
             className="px-4 py-2 text-sm rounded-full bg-orange-700"
             onClick={() => {
               localStorage.removeItem("token");
-              window.location.reload();
+              setuser(null);
+              navigate.push("/");
             }}
           >
-            logout
+            Logout
           </button>
         )}
       </div>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 
-function useUser() {
+export default function useUser() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setuser] = useState(null);
   const [isError, setIsError] = useState(null);
@@ -32,7 +32,7 @@ function useUser() {
     fetchUser();
   }, [fetchUser]);
 
-  return { user, isLoading, isError };
-}
+  console.log(":::::", user);
 
-export default useUser;
+  return { user, isLoading, isError, setuser };
+}

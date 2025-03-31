@@ -106,7 +106,7 @@ export default function Dashboard() {
     );
 
   return (
-    <div className="p-8 flex justify-center">
+    <div className="p-8 flex flex-grow justify-center">
       <div className="w-4/6">
         <div className="flex justify-between w-full items-center">
           <h1 className="text-4xl font-extrabold">My zaps!</h1>

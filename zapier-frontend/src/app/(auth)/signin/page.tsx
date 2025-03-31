@@ -36,7 +36,7 @@ export default function Signin() {
 
       const token = "Bearer " + res.data.token;
       localStorage.setItem("token", token);
-      navigate.replace("/");
+      navigate.push("/");
     } catch (error) {
       console.log("error while signin data to backend!");
       toast({

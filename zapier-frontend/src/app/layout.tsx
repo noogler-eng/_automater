@@ -4,6 +4,7 @@ import "./globals.css";
 import Provider from "./components/Provider";
 import Appbar from "./components/Appbar";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "./components/Bottom";
 
 const pacifico = Pacifico({
   subsets: ["vietnamese"],
@@ -35,6 +36,7 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <Appbar />
             {children}
+            <Footer/>
           </div>
           <Toaster />
         </Provider>

@@ -18,11 +18,21 @@ export default function CreateZap() {
   >([]);
   const [currentModalState, setModalState] = useState(1);
 
+  const handlePublishActionsAndTriggers = async () => {
+    console.log("Publishing actions and triggers...");
+    console.log("Selected Trigger:", selectedTrigger);
+    console.log("Selected Actions:", selectedActions);
+  };
+
   return (
     <div className="flex-grow flex p-10 min-h-screen">
       <div className="bg-slate-200 rounded-lg w-fit px-10 py-4 flex flex-col gap-4 items-center">
         <ZapCell
-          name={selectedTrigger ? "webhooks" : "select trigger"}
+          name={
+            selectedTrigger
+              ? selectedTrigger.availableTriggerName
+              : "select trigger"
+          }
           index={1}
           setModalState={setModalState}
           color={"bg-white text-black"}
@@ -64,6 +74,7 @@ export default function CreateZap() {
           actio={selectedActions}
           setSelectedTrigger={setSelectedTrigger}
           setSelectedActions={setSelectedActions}
+          handlePublishActionsAndTriggers={handlePublishActionsAndTriggers}
         />
       </div>
     </div>

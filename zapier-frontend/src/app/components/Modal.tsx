@@ -7,11 +7,13 @@ export default function Modal({
   actio,
   setSelectedTrigger,
   setSelectedActions,
+  handlePublishActionsAndTriggers,
 }: {
   index: number;
   actio: any;
   setSelectedTrigger: any;
   setSelectedActions: any;
+  handlePublishActionsAndTriggers?: () => void;
 }) {
   const [triggers, setTrigger] = useState<
     {
@@ -39,6 +41,7 @@ export default function Modal({
     image: string;
   }>();
 
+  // all available triggers data fetching functions
   const triggersData = async () => {
     const res = await axios.get(
       "http://localhost:5050/api/v1/trigger/availableTriggers"
@@ -46,6 +49,7 @@ export default function Modal({
     setTrigger(res.data.availableTriggers);
   };
 
+  // all available actions data fetching functions
   const actionsData = async () => {
     const res = await axios.get(
       "http://localhost:5050/api/v1/action/availableActions"
@@ -60,8 +64,16 @@ export default function Modal({
 
   return (
     <div className="border w-full flex-grow p-2 rounded-lg relative">
-      <div className="py-1 px-4 w-fit bg-orange-700 text-white">
-        Block.No: {index}
+      <div className="flex items-center justify-between">
+        <div className="py-1 px-4 w-fit bg-orange-700 text-white">
+          Block.No: {index}
+        </div>
+        <div
+          className="py-1 px-4 w-fit bg-orange-700 text-white rounded-sm hover:cursor-pointer hover:bg-orange-600"
+          onClick={handlePublishActionsAndTriggers}
+        >
+          Publish...
+        </div>
       </div>
       {index == 1 ? (
         <div className="flex flex-col mt-4">
@@ -79,16 +91,29 @@ export default function Modal({
                 },
                 ind
               ) => {
-                return <div key={ind}>{item.name}</div>;
+                return (
+                  <div
+                    key={ind}
+                    onClick={() => {
+                      settrigger({
+                        id: item.id,
+                        name: item.name,
+                        image: item.image,
+                      });
+                    }}
+                  >
+                    {item.name}
+                  </div>
+                );
               }
             )}
           <button
             className="px-8 py-2 text-xl rounded-full bg-orange-700 mt-3 border absolute bottom-2"
             onClick={() => {
               setSelectedTrigger({
-                availableTriggerId: "cat",
-                availableTriggerName: "cat",
-                triggerMetadata: "cat",
+                availableTriggerId: trigger?.id,
+                availableTriggerName: trigger?.name,
+                triggerMetadata: "",
               });
             }}
           >
@@ -112,7 +137,20 @@ export default function Modal({
                 },
                 ind
               ) => {
-                return <div key={ind}>{item.name}</div>;
+                return (
+                  <div
+                    key={ind}
+                    onClick={() => {
+                      setAction({
+                        id: item.id,
+                        name: item.name,
+                        image: item.image,
+                      });
+                    }}
+                  >
+                    {item.name}
+                  </div>
+                );
               }
             )}
           <button
@@ -121,9 +159,9 @@ export default function Modal({
               const arr = [...actio]; // Clone the existing array
               arr[index - 2] = {
                 // Update the object at the specific index
-                availableActionId: "sharad",
-                availableActionName: "sharad",
-                actionMetadata: "sharad",
+                availableActionId: action?.id,
+                availableActionName: action?.name,
+                actionMetadata: "",
               };
               setSelectedActions(arr);
             }}

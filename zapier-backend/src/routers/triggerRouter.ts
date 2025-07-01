@@ -1,7 +1,7 @@
 import express from "express";
 import authMiddleware from "../middlewares/auth";
 import prisma from "../utils/db";
-import jwt, { JwtPayload } from "jsonwebtoken";
+// import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 

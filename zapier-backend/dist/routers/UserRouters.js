@@ -124,6 +124,7 @@ userRouter.get("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void
                 email: email,
             },
             select: {
+                id: true,
                 firstName: true,
                 lastName: true,
                 imageUrl: true,

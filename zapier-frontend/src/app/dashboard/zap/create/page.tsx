@@ -2,6 +2,9 @@
 import ZapCell from "@/app/components/ZapCell";
 import { useState } from "react";
 import Modal from "@/app/components/Modal";
+import { useRouter } from "next/navigation";
+import useUser from "@/app/hooks/useUser";
+import axios from "axios";
 
 export default function CreateZap() {
   const [selectedTrigger, setSelectedTrigger] = useState<{
@@ -17,11 +20,37 @@ export default function CreateZap() {
     }[]
   >([]);
   const [currentModalState, setModalState] = useState(1);
+  const { user }: any = useUser();
+  const router = useRouter();
 
   const handlePublishActionsAndTriggers = async () => {
+    if (!selectedTrigger?.availableTriggerId) {
+      console.log("Please select a trigger before publishing.");
+      return;
+    }
+
     console.log("Publishing actions and triggers...");
     console.log("Selected Trigger:", selectedTrigger);
     console.log("Selected Actions:", selectedActions);
+    console.log("token: ", localStorage.getItem("token"));
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_ZAP_ENVIRONEMNT}/api/v1/zap/`,
+      {
+        userId: String(user?.id) || "",
+        availabelTriggerId: selectedTrigger.availableTriggerId,
+        triggerMetadata: selectedTrigger.triggerMetadata || " ",
+        actions: selectedActions.map((action) => ({
+          availableActionsId: action.availableActionId,
+          actionMetadata: action.actionMetadata || " ",
+        })),
+      },
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token") || ""}`,
+        },
+      }
+    );
+    router.push("/dashboard");
   };
 
   return (

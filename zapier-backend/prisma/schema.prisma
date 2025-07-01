@@ -28,9 +28,9 @@ model User{
 model Zap{
   id            String     @id @default(uuid())
   userId        Int
-  user          User @relation(fields: [userId], references: [id])
-  triggerId     String    
-  trigger       Trigger?
+  user          User       @relation(fields: [userId], references: [id])
+  triggerId     String     @unique
+  trigger       Trigger?   @relation(fields: [triggerId], references: [id])
   actions       Action[]
   zapRuns       ZapRun[]
 }
@@ -39,7 +39,7 @@ model Trigger {
   id            String @id @default(uuid())
   zapId         String @unique
   triggerId     String
-  zap           Zap @relation(fields: [zapId], references: [id])
+  zap           Zap 
   type          AvailableTrigger @relation(fields: [triggerId], references: [id])
 }
 

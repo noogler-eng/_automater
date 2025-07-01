@@ -133,6 +133,7 @@ userRouter.get("/", authMiddleware, async (req, res) => {
         email: email,
       },
       select: {
+        id: true,
         firstName: true,
         lastName: true,
         imageUrl: true,

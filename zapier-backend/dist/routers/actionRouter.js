@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const auth_1 = __importDefault(require("../middlewares/auth"));
 const db_1 = __importDefault(require("../utils/db"));
+// import jwt, { JwtPayload } from "jsonwebtoken";
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const actionRouter = express_1.default.Router();

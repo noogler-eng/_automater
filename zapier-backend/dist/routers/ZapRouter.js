@@ -24,7 +24,9 @@ const zapRouter = express_1.default.Router();
 // there will creation of zap -> trigger -> actions[]
 zapRouter.post("/", auth_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = yield req.body;
+    console.log("body: ", body, body.actions);
     const parsedZapObject = zap_1.default.safeParse(body);
+    console.log("parsedZapObject: ", parsedZapObject.error);
     if (!parsedZapObject.success) {
         return res.status(411).json({
             msg: "Invalid inputs",

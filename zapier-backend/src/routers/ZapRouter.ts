@@ -14,8 +14,10 @@ const zapRouter = express.Router();
 // there will creation of zap -> trigger -> actions[]
 zapRouter.post("/", authMiddleware, async (req: Request, res: Response) => {
   const body = await req.body;
+  console.log("body: ", body, body.actions);
   const parsedZapObject = zapObject.safeParse(body);
 
+  console.log("parsedZapObject: ", parsedZapObject.error);
   if (!parsedZapObject.success) {
     return res.status(411).json({
       msg: "Invalid inputs",
@@ -27,7 +29,6 @@ zapRouter.post("/", authMiddleware, async (req: Request, res: Response) => {
     const zap = await prisma.zap.create({
       data: {
         userId: Number(parsedZapObject.data.userId),
-        triggerId: parsedZapObject.data.availabelTriggerId,
         trigger: {
           create: {
             triggerId: parsedZapObject.data.availabelTriggerId,
